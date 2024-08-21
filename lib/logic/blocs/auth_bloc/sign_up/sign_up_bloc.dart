@@ -1,4 +1,6 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter_application/data/models/general_user_info_model.dart';
+import 'package:flutter_application/data/models/user_model.dart';
 import 'package:flutter_application/services/auth_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -20,10 +22,9 @@ class SignupBloc extends Bloc<SignupEvent, SignupStates> {
       if (result.data['success'] == true) {
         SharedPreferences sharedPreferences =
             await SharedPreferences.getInstance();
-  
         sharedPreferences.setString('token', result.data['data']['token']);
-        sharedPreferences.setString('name', result.data['data']['name']);
-        emit(SignupLoadedState());
+        GeneralUserInfoModel generalUserInfoModel  = await authService.getUser();
+        emit(SignupLoadedState(generalUserInfoModel));
       }
     } catch (e) {
       emit(SignupErrorState(error: e.toString()));

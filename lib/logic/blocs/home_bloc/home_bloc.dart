@@ -9,9 +9,9 @@ class HomeBloc extends Bloc<HomeEvents, HomeStates> {
     on<HomeLogout>(_homeLogout);
   }
 
-  _homeLogout(event, emit) {
+  _homeLogout(event, emit) async{
     emit(HomeLoadingState());
-    authService.logout();
-      emit(HomeLogoutState());
+    await authService.logout();
+    emit(HomeLogoutState());
   }
 }

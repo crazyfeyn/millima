@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application/logic/blocs/auth_bloc/sign_in/sign_in_bloc.dart';
 import 'package:flutter_application/logic/blocs/auth_bloc/sign_in/sign_in_events.dart';
 import 'package:flutter_application/logic/blocs/auth_bloc/sign_in/sign_in_states.dart';
-import 'package:flutter_application/ui/views/screens/auth/sing_up_screen.dart';
+import 'package:flutter_application/ui/views/screens/auth/sign_up_screen.dart';
 import 'package:flutter_application/ui/views/screens/home/home_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -21,47 +21,49 @@ class _SigninScreenState extends State<SigninScreen> {
   bool _isPasswordVisible = false;
   bool _rememberMe = false;
 
-  Future<Map<String, dynamic>> getUserInfo() async {
+  Future<void> _checkUserToken() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    return {
-      'token': sharedPreferences.getString('token'),
-      'name': sharedPreferences.getString('name')
-    };
+    String? token = sharedPreferences.getString('token');
+
+    if (token != null && token.isNotEmpty) {
+      // ignore: use_build_context_synchronously
+      final currentState = context.read<SigninBloc>().state;
+      if (currentState is SignInLoadedState) {
+        Navigator.push(
+          // ignore: use_build_context_synchronously
+          context,
+          MaterialPageRoute(
+            builder: (context) =>  HomeScreen(generalUserInfoModel: currentState.generalUserInfoModel),
+          ),
+        );
+        _isPasswordVisible = false;
+        _passwordController.clear();
+        _phoneNumberController.clear();
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _checkUserToken();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFf4f9fd),
-      body: BlocBuilder<SigninBloc, SignInStates>(builder: (context, state) {
-        if (state is SignInInitialState) {
-          getUserInfo().then(
-            (value) => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) =>
-                    HomeScreen(userName: value['name'], token: value['token']),
-              ),
-            ),
-          );
-        }
-        if (state is SignInLoadingState) {
-          return const Center(child: CircularProgressIndicator());
-        }
+      body: BlocListener<SigninBloc, SignInStates>(
+        listener: (context, state) {
+          if (state is SignInErrorState) {
+            print(state.error);
+          }
 
-        if (state is SignInErrorState) {
-          return Center(child: Text(state.error));
-        }
-
-        if (state is SignInLoadedState) {
-          getUserInfo().then((value) => Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => HomeScreen(
-                      userName: value['name'], token: value['token']))));
-        }
-
-        return Center(
+          if (state is SignInLoadedState) {
+            _checkUserToken();
+          }
+        },
+        child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -126,7 +128,7 @@ class _SigninScreenState extends State<SigninScreen> {
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Please enter your email';
+                                return 'Please enter your phone number';
                               }
                               return null;
                             },
@@ -184,9 +186,7 @@ class _SigninScreenState extends State<SigninScreen> {
                                 ],
                               ),
                               TextButton(
-                                onPressed: () {
-                                  // Handle "Forgot Password?" logic here
-                                },
+                                onPressed: () {},
                                 child: const Text(
                                   'Forgot Password?',
                                   style: TextStyle(
@@ -238,7 +238,6 @@ class _SigninScreenState extends State<SigninScreen> {
                                             const SignupScreen()));
                               },
                               style: ElevatedButton.styleFrom(
-                                // backgroundColor: const Color(0xFF3A89FF),
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 16.0),
                                 shape: RoundedRectangleBorder(
@@ -263,8 +262,8 @@ class _SigninScreenState extends State<SigninScreen> {
               ),
             ],
           ),
-        );
-      }),
+        ),
+      ),
     );
   }
 }
