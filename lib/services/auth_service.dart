@@ -5,10 +5,12 @@ import 'package:flutter_application/data/models/general_user_info_model.dart';
 import 'package:flutter_application/data/models/user_model.dart';
 import 'package:flutter_application/logic/blocs/auth_bloc/interceptor/dio_interceptor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:image/image.dart' as img;
 
 class AuthService {
   final Dio dio = DioInterceptor().createDio();
   String api = "http://millima.flutterwithakmaljon.uz/api/";
+  String apiWithoutApi = "http://millima.flutterwithakmaljon.uz/";
 
   Future<Response> signUp(UserModel user) async {
     try {
@@ -60,9 +62,14 @@ class AuthService {
     try {
       var response = await dio.get("${api}user");
       return GeneralUserInfoModel(
-          name: response.data['data']['name'],
-          phone: response.data['data']['phone'],
-          roleId: response.data['data']['role_id']);
+        name: response.data['data']['name'],
+        phone: response.data['data']['phone'],
+        roleId: response.data['data']['role_id'],
+        photo:
+            "$apiWithoutApi/storage/avatars/${response.data['data']['photo']}",
+        email: response.data['data']['email'],
+        id: response.data['data']['id'],
+      );
     } on DioException catch (e) {
       throw e.toString();
     }
@@ -70,8 +77,8 @@ class AuthService {
 
   Future<void> updateProfile({
     required String name,
-    String? email,
     required String phone,
+    String? email,
     File? photo,
   }) async {
     try {
@@ -87,12 +94,15 @@ class AuthService {
       }
 
       if (photo != null) {
+        File compressedPhoto =
+            await _compressImage(photo, maxSizeInBytes: 512 * 1024);
+
         formData.files.add(
           MapEntry(
             'photo',
             await MultipartFile.fromFile(
-              photo.path,
-              filename: 'profile_photo.${photo.path.split('.').last}',
+              compressedPhoto.path,
+              filename: 'profile_photo.${compressedPhoto.path.split('.').last}',
             ),
           ),
         );
@@ -105,13 +115,59 @@ class AuthService {
           contentType: 'multipart/form-data',
         ),
       );
-
-      print("Profile updated: ${response.data}");
     } on DioException catch (error) {
-      print("Failed to update profile: ${error.response?.data}");
       throw error.message.toString();
     } catch (e) {
-      print("An error occurred: $e");
+      rethrow;
+    }
+  }
+
+  Future<File> _compressImage(File file, {required int maxSizeInBytes}) async {
+    img.Image image = img.decodeImage(await file.readAsBytes())!;
+
+    int quality = 100;
+    File compressedFile = file;
+
+    do {
+      quality -= 10;
+
+      List<int> compressedBytes = img.encodeJpg(image, quality: quality);
+
+      compressedFile = File('${file.path}_compressed.jpg');
+      await compressedFile.writeAsBytes(compressedBytes);
+    } while (compressedFile.lengthSync() > maxSizeInBytes && quality > 10);
+
+    return compressedFile;
+  }
+
+  Future<List<GeneralUserInfoModel>> getAllUsers() async {
+    try {
+      final response = await dio.get(
+        'http://millima.flutterwithakmaljon.uz/api/users',
+      );
+
+      if (response.data['success'] == false) {
+        throw response.data;
+      }
+
+      List<GeneralUserInfoModel> result = [];
+      for (var user in response.data['data']) {
+        result.add(
+          GeneralUserInfoModel(
+              name: user['name'],
+              phone: user['phone'],
+              roleId: user['role_id'],
+              photo: user['photo'] != null
+                  ? "$apiWithoutApi/storage/avatars/${user['photo']}"
+                  : null,
+              email: user['email'],
+              id: user['id']),
+        );
+      }
+      return result;
+    } on DioException catch (error) {
+      throw error.message.toString();
+    } catch (e) {
       rethrow;
     }
   }

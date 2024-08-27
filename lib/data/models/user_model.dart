@@ -13,4 +13,5 @@ class UserModel {
     required this.passwordConfirmation,
     this.roleId,
   });
+  
 }

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/data/models/general_user_info_model.dart';
 import 'package:flutter_application/logic/blocs/auth_bloc/sign_in/sign_in_bloc.dart';
 import 'package:flutter_application/logic/blocs/auth_bloc/sign_in/sign_in_events.dart';
 import 'package:flutter_application/logic/blocs/auth_bloc/sign_in/sign_in_states.dart';
 import 'package:flutter_application/ui/views/screens/auth/sign_up_screen.dart';
-import 'package:flutter_application/ui/views/screens/home/home_screen.dart';
+import 'package:flutter_application/ui/views/screens/roles/admin_screen.dart';
+import 'package:flutter_application/ui/views/screens/roles/student_screen.dart';
+import 'package:flutter_application/ui/views/screens/roles/teacher_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class SigninScreen extends StatefulWidget {
   const SigninScreen({super.key});
@@ -21,32 +23,47 @@ class _SigninScreenState extends State<SigninScreen> {
   bool _isPasswordVisible = false;
   bool _rememberMe = false;
 
-  Future<void> _checkUserToken() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    String? token = sharedPreferences.getString('token');
-
-    if (token != null && token.isNotEmpty) {
-      // ignore: use_build_context_synchronously
-      final currentState = context.read<SigninBloc>().state;
-      if (currentState is SignInLoadedState) {
-        Navigator.push(
-          // ignore: use_build_context_synchronously
-          context,
-          MaterialPageRoute(
-            builder: (context) =>  HomeScreen(generalUserInfoModel: currentState.generalUserInfoModel),
-          ),
-        );
-        _isPasswordVisible = false;
-        _passwordController.clear();
-        _phoneNumberController.clear();
-      }
-    }
-  }
-
   @override
   void initState() {
     super.initState();
-    _checkUserToken();
+    // Trigger the token check when the screen initializes
+    context.read<SigninBloc>().add(SignInCheckToken());
+  }
+
+  void _navigateToRoleScreen(
+      BuildContext context, GeneralUserInfoModel userModel) {
+    switch (userModel.roleId) {
+      case 1:
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  StudentScreen(generalUserInfoModel: userModel)),
+        );
+        break;
+      case 2:
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  TeacherScreen(generalUserInfoModel: userModel)),
+        );
+        break;
+      case 3:
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  AdminScreen(generalUserInfoModel: userModel)),
+        );
+        break;
+      default:
+        // Navigate to the SigninScreen if no valid roleId
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const SigninScreen()),
+        );
+    }
   }
 
   @override
@@ -56,11 +73,19 @@ class _SigninScreenState extends State<SigninScreen> {
       body: BlocListener<SigninBloc, SignInStates>(
         listener: (context, state) {
           if (state is SignInErrorState) {
-            print(state.error);
+            // Handle errors here, e.g., show a snack bar
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(state.error)),
+            );
           }
 
           if (state is SignInLoadedState) {
-            _checkUserToken();
+            // Navigate to the role-specific screen
+            _navigateToRoleScreen(context, state.generalUserInfoModel);
+          }
+
+          if (state is SignedOutState) {
+            // Stay on the sign-in screen since the user is not authenticated
           }
         },
         child: Center(
@@ -204,15 +229,18 @@ class _SigninScreenState extends State<SigninScreen> {
                               onPressed: () {
                                 if (_formKey.currentState!.validate()) {
                                   context.read<SigninBloc>().add(
-                                      SignInSubmitted(
+                                        SignInSubmitted(
                                           phone: _phoneNumberController.text,
-                                          password: _passwordController.text));
+                                          password: _passwordController.text,
+                                        ),
+                                      );
                                 }
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: const Color(0xFF3A89FF),
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 16.0),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 16.0,
+                                ),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(8.0),
                                 ),
@@ -220,36 +248,42 @@ class _SigninScreenState extends State<SigninScreen> {
                               child: const Text(
                                 'Sign In',
                                 style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.white),
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                ),
                               ),
                             ),
                           ),
-                          const SizedBox(height: 7),
-                          SizedBox(
-                            width: double.infinity,
-                            child: ElevatedButton(
+                          const SizedBox(height: 20),
+                          const Divider(),
+                          const SizedBox(height: 20),
+                          Center(
+                            child: TextButton(
                               onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const SignupScreen()));
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const SignupScreen(),
+                                  ),
+                                );
                               },
-                              style: ElevatedButton.styleFrom(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 16.0),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                ),
-                              ),
-                              child: const Text(
-                                'Don\'t have an account',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(0xFF3F8CFF),
+                              child: RichText(
+                                text: const TextSpan(
+                                  text: 'Don\'t have an account? ',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                  children: [
+                                    TextSpan(
+                                      text: 'Sign Up',
+                                      style: TextStyle(
+                                        color: Color(0xFF3A89FF),
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),

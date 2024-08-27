@@ -3,7 +3,11 @@ import 'package:flutter_application/data/models/user_model.dart';
 import 'package:flutter_application/logic/blocs/auth_bloc/sign_up/sign_up_bloc.dart';
 import 'package:flutter_application/logic/blocs/auth_bloc/sign_up/sign_up_events.dart';
 import 'package:flutter_application/logic/blocs/auth_bloc/sign_up/sign_up_states.dart';
+import 'package:flutter_application/ui/views/screens/auth/sign_in_screen.dart';
 import 'package:flutter_application/ui/views/screens/home/home_screen.dart';
+import 'package:flutter_application/ui/views/screens/roles/admin_screen.dart';
+import 'package:flutter_application/ui/views/screens/roles/student_screen.dart';
+import 'package:flutter_application/ui/views/screens/roles/teacher_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -19,7 +23,8 @@ class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
   bool _isPasswordVisible = false;
   bool _isConfirmPasswordVisible = false;
   int? _selectedRole;
@@ -49,15 +54,26 @@ class _SignupScreenState extends State<SignupScreen> {
                 context,
                 MaterialPageRoute(
                   builder: (ctx) {
-                    return HomeScreen(
-                     generalUserInfoModel: state.generalUserInfoModel,
-                    );
+                    switch (state.generalUserInfoModel.roleId) {
+                      case 1:
+                        return StudentScreen(
+                            generalUserInfoModel: state.generalUserInfoModel);
+                      case 2:
+                        return TeacherScreen(
+                            generalUserInfoModel: state.generalUserInfoModel);
+                      case 3:
+                        return AdminScreen(
+                            generalUserInfoModel: state.generalUserInfoModel);
+                      default:
+                        return const SigninScreen();
+                    }
                   },
                 ),
               );
             }).catchError((error) {
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Failed to load user information: $error')),
+                SnackBar(
+                    content: Text('Failed to load user information: $error')),
               );
             });
           }
@@ -171,7 +187,8 @@ class _SignupScreenState extends State<SignupScreen> {
                                       ),
                                       onPressed: () {
                                         setState(() {
-                                          _isPasswordVisible = !_isPasswordVisible;
+                                          _isPasswordVisible =
+                                              !_isPasswordVisible;
                                         });
                                       },
                                     ),
@@ -226,8 +243,10 @@ class _SignupScreenState extends State<SignupScreen> {
                                   ),
                                   value: _selectedRole,
                                   items: const [
-                                    DropdownMenuItem(value: 2, child: Text("Teacher")),
-                                    DropdownMenuItem(value: 3, child: Text("Admin")),
+                                    DropdownMenuItem(
+                                        value: 2, child: Text("Teacher")),
+                                    DropdownMenuItem(
+                                        value: 3, child: Text("Admin")),
                                   ],
                                   onChanged: (value) {
                                     setState(() {
@@ -241,23 +260,29 @@ class _SignupScreenState extends State<SignupScreen> {
                                   child: ElevatedButton(
                                     onPressed: () {
                                       if (_formKey.currentState!.validate()) {
-                                        context.read<SignupBloc>().add(
-                                            SignupSubmitted(
-                                                user: UserModel(
-                                                    name: _nameController.text,
-                                                    phone: _phoneNumberController.text,
-                                                    password: _passwordController.text,
-                                                    passwordConfirmation: _passwordController.text,
-                                                    roleId: _selectedRole,
-                                                ),
-                                        ));
+                                        context
+                                            .read<SignupBloc>()
+                                            .add(SignupSubmitted(
+                                              user: UserModel(
+                                                name: _nameController.text,
+                                                phone:
+                                                    _phoneNumberController.text,
+                                                password:
+                                                    _passwordController.text,
+                                                passwordConfirmation:
+                                                    _passwordController.text,
+                                                roleId: _selectedRole,
+                                              ),
+                                            ));
                                       }
                                     },
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: const Color(0xFF3A89FF),
-                                      padding: const EdgeInsets.symmetric(vertical: 16.0),
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 16.0),
                                       shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(8.0),
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
                                       ),
                                     ),
                                     child: const Text(

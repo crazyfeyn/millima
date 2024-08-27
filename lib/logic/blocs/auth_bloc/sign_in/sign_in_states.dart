@@ -17,6 +17,11 @@ class SignInLoadedState extends SignInStates {
   SignInLoadedState(this.generalUserInfoModel);
 }
 
+class SignInCheckTokenState extends SignInStates {
+  String token;
+  SignInCheckTokenState(this.token);
+}
+
 class SignedOutState extends SignInStates {}
 
 class SignInErrorState extends SignInStates {

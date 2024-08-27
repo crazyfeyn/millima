@@ -8,11 +8,8 @@ class StudentScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text('Student')
-        ],
+      body: Center(
+        child: Text('Student'),
       ),
     );
   }

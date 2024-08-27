@@ -17,10 +17,12 @@ class SignInSubmitted extends SignInEvent {
   List<Object> get props => [phone, password];
 }
 
-class SignInGetUser extends SignedOutState {
+class SignInGetUser extends SignInEvent {
   final UserModel userModel;
 
   SignInGetUser(this.userModel);
 }
+
+class SignInCheckToken extends SignInEvent {}
 
 class SignOut extends SignInEvent {}
