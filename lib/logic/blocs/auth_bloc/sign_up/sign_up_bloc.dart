@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter_application/data/models/general_user_info_model.dart';
 import 'package:flutter_application/data/models/user_model.dart';
-import 'package:flutter_application/services/auth_service.dart';
+import 'package:flutter_application/data/services/auth_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'sign_up_events.dart';

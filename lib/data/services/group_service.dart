@@ -17,15 +17,10 @@ class GroupService {
         "subject_id": subjectId
       };
 
-      final response = await dio.post(
+      await dio.post(
         '${api}groups',
         data: data,
       );
-
-      if (response.statusCode == 200 || response.statusCode == 201) {
-      } else {
-        throw 'Failed to add group: ${response.statusCode}';
-      }
     } catch (e) {
       rethrow;
     }

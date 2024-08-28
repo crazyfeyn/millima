@@ -5,6 +5,8 @@ import 'package:flutter_application/data/models/subject_model.dart';
 import 'package:flutter_application/logic/blocs/group/group_bloc.dart';
 import 'package:flutter_application/logic/blocs/group/group_events.dart';
 import 'package:flutter_application/ui/views/screens/drawer/custom_drawer.dart';
+import 'package:flutter_application/ui/views/screens/drawer/group_screen.dart';
+import 'package:flutter_application/ui/views/screens/roles/admin_screen.dart';
 import 'package:flutter_application/ui/views/widgets/choose_subject.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -131,11 +133,11 @@ class _AddGroupState extends State<AddGroup> {
                       mainTeacherId: mainTeacher!.id,
                       assistantTeacherId: asistantTeacher!.id,
                       subjectId: subjectModel!.id));
-                  // Navigator.pushReplacement(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //       builder: (context) => AdminScreen(),
-                  //     ));
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const GroupScreen(),
+                      ));
                 },
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blue,

@@ -1,7 +1,7 @@
 import 'package:flutter_application/data/models/subject_model.dart';
 import 'package:flutter_application/logic/blocs/subject/subject_event.dart';
 import 'package:flutter_application/logic/blocs/subject/subject_states.dart';
-import 'package:flutter_application/services/subject_service.dart';
+import 'package:flutter_application/data/services/subject_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SubjectBloc extends Bloc<SubjectEvent, SubjectState> {

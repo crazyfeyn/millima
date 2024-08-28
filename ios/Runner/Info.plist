@@ -49,6 +49,21 @@
 	<string>We need access to your photo library to upload profile pictures.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>We need access to your camera to take a profile picture.</string>
-
+	<!-- Put me in the [my_project]/ios/Runner/Info.plist file -->
+	<!-- Google Sign-in Section -->
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<!-- TODO Replace this value: -->
+				<!-- Copied from GoogleService-Info.plist key REVERSED_CLIENT_ID -->
+				<string>com.googleusercontent.apps.492603061234-59uq1evdgn3mlmdk3k1vpqa25hngvcf4</string>
+			</array>
+		</dict>
+	</array>
+<!-- End of the Google Sign-in Section -->
 </dict>
 </plist>

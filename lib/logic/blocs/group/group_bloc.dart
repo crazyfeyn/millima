@@ -1,7 +1,7 @@
 import 'package:flutter_application/data/models/group_model.dart';
 import 'package:flutter_application/logic/blocs/group/group_events.dart';
 import 'package:flutter_application/logic/blocs/group/group_states.dart';
-import 'package:flutter_application/services/group_service.dart';
+import 'package:flutter_application/data/services/group_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class GroupBloc extends Bloc<GroupEvent, GroupState> {
@@ -50,6 +50,7 @@ class GroupBloc extends Bloc<GroupEvent, GroupState> {
   Future<void> _addGroups(AddGroupEvent event, emit) async {
     final GroupService groupService = GroupService();
     try {
+      emit(GroupLoadingState());
       await groupService.addGroup(event.name, event.mainTeacherId,
           event.assistantTeacherId, event.subjectId);
       add(GetGroupsEvent());
@@ -88,6 +89,4 @@ class GroupBloc extends Bloc<GroupEvent, GroupState> {
       emit(GroupErrorState(error: e.toString()));
     }
   }
-
-  
 }

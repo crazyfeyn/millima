@@ -1,7 +1,7 @@
 import 'package:flutter_application/data/models/room_model.dart';
 import 'package:flutter_application/logic/blocs/room/room_events.dart';
 import 'package:flutter_application/logic/blocs/room/room_states.dart';
-import 'package:flutter_application/services/room_service.dart';
+import 'package:flutter_application/data/services/room_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RoomBloc extends Bloc<RoomEvent, RoomState> {

@@ -1,8 +1,10 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:flutter_application/data/models/auth/authentication_response.dart';
 import 'package:flutter_application/data/models/general_user_info_model.dart';
 import 'package:flutter_application/data/models/user_model.dart';
+import 'package:flutter_application/data/models/auth/social_login_request.dart';
 import 'package:flutter_application/logic/blocs/auth_bloc/interceptor/dio_interceptor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:image/image.dart' as img;
@@ -108,7 +110,7 @@ class AuthService {
         );
       }
 
-      final response = await dio.post(
+      await dio.post(
         "http://millima.flutterwithakmaljon.uz/api/profile/update",
         data: formData,
         options: Options(
@@ -167,6 +169,21 @@ class AuthService {
       return result;
     } on DioException catch (error) {
       throw error.message.toString();
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<AuthenticationResponse> socialLogin(SocialLoginRequest request) async {
+    try {
+      final response = await dio.post(
+        '/social-login',
+        data: request.toMap(),
+      );
+      return AuthenticationResponse.fromMap(response.data['data']);
+    } on DioException catch (e) {
+      throw (e.response?.data);
     } catch (e) {
       rethrow;
     }

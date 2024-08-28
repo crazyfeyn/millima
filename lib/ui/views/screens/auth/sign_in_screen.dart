@@ -27,7 +27,7 @@ class _SigninScreenState extends State<SigninScreen> {
   void initState() {
     super.initState();
     // Trigger the token check when the screen initializes
-    context.read<SigninBloc>().add(SignInCheckToken());
+    // context.read<SigninBloc>().add(SignInCheckToken());
   }
 
   void _navigateToRoleScreen(
@@ -73,7 +73,6 @@ class _SigninScreenState extends State<SigninScreen> {
       body: BlocListener<SigninBloc, SignInStates>(
         listener: (context, state) {
           if (state is SignInErrorState) {
-            // Handle errors here, e.g., show a snack bar
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(state.error)),
             );
@@ -250,6 +249,33 @@ class _SigninScreenState extends State<SigninScreen> {
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 20),
+                          SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                context.read<SigninBloc>().add(SocialLoginEvent(
+                                    type: SocialLoginTypes.google));
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xFF3A89FF),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 16.0,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                ),
+                              ),
+                              child: const Text(
+                                'Google',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.white,
                                 ),
                               ),
                             ),

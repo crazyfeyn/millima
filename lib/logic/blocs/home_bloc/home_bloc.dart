@@ -3,7 +3,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter_application/data/models/general_user_info_model.dart';
 import 'package:flutter_application/logic/blocs/home_bloc/home_events.dart';
 import 'package:flutter_application/logic/blocs/home_bloc/home_states.dart';
-import 'package:flutter_application/services/auth_service.dart';
+import 'package:flutter_application/data/services/auth_service.dart';
 
 class HomeBloc extends Bloc<HomeEvents, HomeStates> {
   final AuthService authService;

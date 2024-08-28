@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "492603061234",
+    "project_id": "darsxona-ebb7d",
+    "storage_bucket": "darsxona-ebb7d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:492603061234:android:f85a2b833ba5a7b21db16b",
+        "android_client_info": {
+          "package_name": "com.example.flutter_application"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "492603061234-mqq9pjpc12l8u7h9dl2efbf08vbfmttd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCgIJ4NlMr0RZAudeLO76GcDgiZR1yDV60"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "492603061234-mqq9pjpc12l8u7h9dl2efbf08vbfmttd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
