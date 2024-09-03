@@ -34,8 +34,8 @@ class GroupModel {
     return GroupModel(
       id: map['id'],
       name: map['name'],
-      mainTeacher: GeneralUserInfoModel.fromMap(map['mainTeacher']),
-      assistantTeacher: GeneralUserInfoModel.fromMap(map['assistantTeacher']),
+      mainTeacher: GeneralUserInfoModel.fromMap(map['main_teacher']),
+      assistantTeacher: GeneralUserInfoModel.fromMap(map['assistant_teacher']),
       students: students,
       classes: classes,
       subjectModel:

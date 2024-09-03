@@ -27,7 +27,7 @@ class _SigninScreenState extends State<SigninScreen> {
   void initState() {
     super.initState();
     // Trigger the token check when the screen initializes
-    // context.read<SigninBloc>().add(SignInCheckToken());
+    context.read<SigninBloc>().add(SignInCheckToken());
   }
 
   void _navigateToRoleScreen(

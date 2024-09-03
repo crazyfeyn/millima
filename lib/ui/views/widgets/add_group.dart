@@ -6,7 +6,6 @@ import 'package:flutter_application/logic/blocs/group/group_bloc.dart';
 import 'package:flutter_application/logic/blocs/group/group_events.dart';
 import 'package:flutter_application/ui/views/screens/drawer/custom_drawer.dart';
 import 'package:flutter_application/ui/views/screens/drawer/group_screen.dart';
-import 'package:flutter_application/ui/views/screens/roles/admin_screen.dart';
 import 'package:flutter_application/ui/views/widgets/choose_subject.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -128,6 +127,26 @@ class _AddGroupState extends State<AddGroup> {
             const SizedBox(height: 15),
             ElevatedButton(
                 onPressed: () {
+                  if (nameEditingController.text.isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Text("Please enter a group name")));
+                    return;
+                  }
+                  if (mainTeacher == null) {
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Text("Please select a main teacher")));
+                    return;
+                  }
+                  if (asistantTeacher == null) {
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Text("Please select an assistant teacher")));
+                    return;
+                  }
+                  if (subjectModel == null) {
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Text("Please select a subject")));
+                    return;
+                  }
                   context.read<GroupBloc>().add(AddGroupEvent(
                       name: nameEditingController.text,
                       mainTeacherId: mainTeacher!.id,

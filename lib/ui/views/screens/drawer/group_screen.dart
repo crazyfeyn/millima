@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application/logic/blocs/group/group_bloc.dart';
 import 'package:flutter_application/logic/blocs/group/group_events.dart';
 import 'package:flutter_application/logic/blocs/group/group_states.dart';
-import 'package:flutter_application/ui/views/widgets/group_item_for_admin.dart';
+import 'package:flutter_application/ui/views/widgets/group/group_item_for_admin.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class GroupScreen extends StatelessWidget {
@@ -59,12 +59,15 @@ class GroupScreen extends StatelessWidget {
                     )
                   ],
                 ),
+                const SizedBox(height: 14),
                 state.groups.isNotEmpty
                     ? Expanded(
-                        child: ListView.builder(itemBuilder: (context, index) {
-                        return GroupItemForAdmin(
-                            groupModel: state.groups[index]);
-                      }))
+                        child: ListView.builder(
+                            itemCount: state.groups.length,
+                            itemBuilder: (context, index) {
+                              return GroupItemForAdmin(
+                                  groupModel: state.groups[index]);
+                            }))
                     : const Center(
                         child: Text("No groups is found"),
                       )

@@ -14,9 +14,10 @@ class GroupBloc extends Bloc<GroupEvent, GroupState> {
     on<DeleteGroupEvent>(_deleteGroups);
   }
 
+  final GroupService groupService = GroupService();
+
   Future<void> _onGetGroups(GetGroupsEvent event, emit) async {
     emit(GroupLoadingState());
-    final GroupService groupService = GroupService();
     try {
       final response = await groupService.getGroups();
       List<GroupModel> groups = [];
@@ -32,7 +33,6 @@ class GroupBloc extends Bloc<GroupEvent, GroupState> {
 
   Future<void> _onGetStudentGroups(GetStudentGroupsEvent event, emit) async {
     emit(GroupLoadingState());
-    final GroupService groupService = GroupService();
     try {
       final response = await groupService.getStudentGroups();
       List<GroupModel> groups = [];
@@ -48,7 +48,6 @@ class GroupBloc extends Bloc<GroupEvent, GroupState> {
   }
 
   Future<void> _addGroups(AddGroupEvent event, emit) async {
-    final GroupService groupService = GroupService();
     try {
       emit(GroupLoadingState());
       await groupService.addGroup(event.name, event.mainTeacherId,
@@ -60,7 +59,6 @@ class GroupBloc extends Bloc<GroupEvent, GroupState> {
   }
 
   Future<void> _addStudentsToGroups(AddStudentsToGroupEvent event, emit) async {
-    final GroupService groupService = GroupService();
     try {
       await groupService.addStudentsToGroup(event.groupId, event.studentsId);
       add(GetGroupsEvent());
@@ -70,7 +68,6 @@ class GroupBloc extends Bloc<GroupEvent, GroupState> {
   }
 
   Future<void> _updateGroups(UpdateGroupEvent event, emit) async {
-    final GroupService groupService = GroupService();
     try {
       await groupService.updateGroup(event.groupId, event.name,
           event.mainTeacherId, event.assistantTeacherId);
@@ -81,7 +78,6 @@ class GroupBloc extends Bloc<GroupEvent, GroupState> {
   }
 
   Future<void> _deleteGroups(DeleteGroupEvent event, emit) async {
-    final GroupService groupService = GroupService();
     try {
       await groupService.deleteGroup(event.groupId);
       add(GetGroupsEvent());

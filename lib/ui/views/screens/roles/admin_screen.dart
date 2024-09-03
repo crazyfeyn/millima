@@ -7,7 +7,7 @@ import 'package:flutter_application/ui/views/screens/drawer/custom_drawer.dart';
 import 'package:flutter_application/ui/views/screens/drawer/managa_room.dart';
 import 'package:flutter_application/ui/views/screens/profile/profile_widget.dart';
 import 'package:flutter_application/ui/views/widgets/add_group.dart';
-import 'package:flutter_application/ui/views/widgets/group_item_for_admin.dart';
+import 'package:flutter_application/ui/views/widgets/group/group_item_for_admin.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AdminScreen extends StatelessWidget {

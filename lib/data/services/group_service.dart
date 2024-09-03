@@ -87,7 +87,7 @@ class GroupService {
       );
 
       if (response.data['success'] == false) {
-        throw response.data;
+        throw Exception;
       }
       return response.data;
     } catch (e) {
