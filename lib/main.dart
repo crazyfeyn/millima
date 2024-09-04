@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/data/models/general_user_info_model.dart';
 import 'package:flutter_application/logic/blocs/group/group_bloc.dart';
 import 'package:flutter_application/logic/blocs/home_bloc/home_bloc.dart';
 import 'package:flutter_application/logic/blocs/room/room_bloc.dart';
@@ -11,8 +12,18 @@ import 'logic/blocs/auth_bloc/sign_in/sign_in_bloc.dart';
 import 'logic/blocs/auth_bloc/sign_up/sign_up_bloc.dart';
 import 'ui/views/screens/auth/sign_in_screen.dart';
 
-void main(List<String> args) {
+void main(List<String> args) async{
   runApp(const MyApp());
+
+  // WidgetsFlutterBinding.ensureInitialized();
+  
+  // await Hive.initFlutter();
+  
+  // Hive.registerAdapter(GeneralUserInfoModelAdapter());
+  
+  // await Hive.openBox<GeneralUserInfoModel>('userBox');
+
+  
 }
 
 class MyApp extends StatelessWidget {

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application/logic/blocs/group/group_bloc.dart';
 import 'package:flutter_application/logic/blocs/group/group_events.dart';
 import 'package:flutter_application/logic/blocs/group/group_states.dart';
+import 'package:flutter_application/ui/views/widgets/add_group.dart';
 import 'package:flutter_application/ui/views/widgets/group/group_item_for_admin.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -39,21 +40,11 @@ class GroupScreen extends StatelessWidget {
                   children: [
                     const Text('Create a subject'),
                     GestureDetector(
-                      onTap: () {
-                        // Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //       builder: (context) => const ManageSubject(
-                        //         subjectModel: null,
-                        //       ),
-                        //     ));
-                      },
-                      child:
-                          // onTap: () => Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //         builder: (context) => const AddGroup())),
-                          const CircleAvatar(
+                      onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const AddGroup())),
+                      child: const CircleAvatar(
                         child: Icon(Icons.add),
                       ),
                     )

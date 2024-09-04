@@ -13,6 +13,16 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // void saveUserData(GeneralUserInfoModel user) async {
+    //   var box = Hive.box<GeneralUserInfoModel>('userBox');
+    //   await box.put('userInfo', user);
+    // }
+
+    // GeneralUserInfoModel? getUserData() {
+    //   var box = Hive.box<GeneralUserInfoModel>('userBox');
+    //   return box.get('userInfo');
+    // }
+
     return Scaffold(
       appBar: AppBar(
         leading: GestureDetector(

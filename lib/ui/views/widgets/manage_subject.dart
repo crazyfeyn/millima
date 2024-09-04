@@ -21,6 +21,7 @@ class _ManageSubjectState extends State<ManageSubject> {
     super.initState();
     if (widget.subjectModel != null) {
       nameEditingController.text = widget.subjectModel!.name;
+      setState(() {});
     }
   }
 

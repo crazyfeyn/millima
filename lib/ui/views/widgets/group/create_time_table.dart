@@ -73,9 +73,17 @@ class _CreateTimetableState extends State<CreateTimetable> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            DropdownButton<int>(
-              hint: const Text("Choose weekday"),
+            DropdownButtonFormField<int>(
+              decoration: InputDecoration(
+                labelText: "Choose weekday",
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                contentPadding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+              ),
               value: selectedDayIndex,
               onChanged: (newValue) {
                 setState(() {
@@ -95,12 +103,19 @@ class _CreateTimetableState extends State<CreateTimetable> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text("Starting time:"),
+                const Text(
+                  "Starting time:",
+                  style: TextStyle(fontSize: 16),
+                ),
                 ElevatedButton(
                   onPressed: () => _selectTime(context, true),
-                  child: Text(startTime == null
-                      ? "Select"
-                      : _formatTimeOfDay(startTime!)),
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 24.0, vertical: 12.0),
+                  ),
+                  child: Text(
+                    startTime == null ? "Select" : _formatTimeOfDay(startTime!),
+                  ),
                 ),
               ],
             ),
@@ -108,11 +123,19 @@ class _CreateTimetableState extends State<CreateTimetable> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text("Ending time:"),
+                const Text(
+                  "Ending time:",
+                  style: TextStyle(fontSize: 16),
+                ),
                 ElevatedButton(
                   onPressed: () => _selectTime(context, false),
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 24.0, vertical: 12.0),
+                  ),
                   child: Text(
-                      endTime == null ? "Select" : _formatTimeOfDay(endTime!)),
+                    endTime == null ? "Select" : _formatTimeOfDay(endTime!),
+                  ),
                 ),
               ],
             ),
@@ -136,11 +159,25 @@ class _CreateTimetableState extends State<CreateTimetable> {
                         );
                         return;
                       }
-                      await chooseRoom(context, widget.groupId,
-                          (selectedDayIndex! + 1), start, end);
+                      await chooseRoom(
+                        context,
+                        widget.groupId,
+                        (selectedDayIndex! + 1),
+                        start,
+                        end,
+                      );
                     }
                   : null,
-              child: const Text("Get Rooms"),
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(vertical: 14.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+              child: const Text(
+                "Get Rooms",
+                style: TextStyle(fontSize: 18),
+              ),
             ),
           ],
         ),

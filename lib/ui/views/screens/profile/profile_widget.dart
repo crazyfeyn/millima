@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application/logic/blocs/home_bloc/home_bloc.dart';
 import 'package:flutter_application/logic/blocs/home_bloc/home_events.dart';
 import 'package:flutter_application/logic/blocs/home_bloc/home_states.dart';
+import 'package:flutter_application/ui/views/screens/auth/sign_in_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_application/data/models/general_user_info_model.dart';
@@ -13,6 +14,7 @@ class ProfileWidget extends StatefulWidget {
   const ProfileWidget({super.key, required this.generalUserInfoModel});
 
   @override
+  // ignore: library_private_types_in_public_api
   _ProfileWidgetState createState() => _ProfileWidgetState();
 }
 
@@ -52,8 +54,8 @@ class _ProfileWidgetState extends State<ProfileWidget> {
   }
 
   Future<void> _pickImage(BuildContext context, ImageSource source) async {
-    final ImagePicker _picker = ImagePicker();
-    final XFile? image = await _picker.pickImage(source: source);
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: source);
     if (image != null) {
       _updatePhoto(File(image.path));
     }
@@ -133,7 +135,9 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                           );
                         },
                       ),
-                      child: _photoPath != null && _photoPath!.isNotEmpty
+                      child: _photoPath != null &&
+                              _photoPath!.isNotEmpty &&
+                              !_photoPath!.contains('null')
                           ? Container(
                               clipBehavior: Clip.hardEdge,
                               width: 80,
@@ -181,11 +185,25 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                       keyboardType: TextInputType.emailAddress,
                     ),
                     const SizedBox(height: 20),
-                    Center(
-                      child: ElevatedButton(
-                        onPressed: submitForm,
-                        child: const Text('Update Info'),
-                      ),
+                    Column(
+                      children: [
+                        ElevatedButton(
+                          onPressed: submitForm,
+                          child: const Text('Update Info'),
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            context.read<HomeBloc>().add(HomeLogout());
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const SigninScreen()),
+                              (Route<dynamic> route) => false,
+                            );
+                          },
+                          child: const Text('Log out'),
+                        ),
+                      ],
                     ),
                   ],
                 ),
