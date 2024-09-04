@@ -7,6 +7,18 @@ sealed class RoomEvent extends Equatable {
 
 class GetRoomsEvent extends RoomEvent {}
 
+class AddRoomEvent extends RoomEvent {
+  final String name;
+  final String description;
+  final int capacity;
+
+  AddRoomEvent({
+    required this.name,
+    required this.description,
+    required this.capacity,
+  });
+}
+
 class GetAvailableRoomsEvent extends RoomEvent {
   final int dayId;
   final String startTime;
@@ -41,14 +53,3 @@ class DeleteRoomEvent extends RoomEvent {
   });
 }
 
-class AddRoomEvent extends RoomEvent {
-  final String name;
-  final String description;
-  final int capacity;
-
-  AddRoomEvent({
-    required this.name,
-    required this.description,
-    required this.capacity,
-  });
-}

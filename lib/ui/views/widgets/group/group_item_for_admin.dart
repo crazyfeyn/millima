@@ -4,6 +4,7 @@ import 'package:flutter_application/data/models/group_model.dart';
 import 'package:flutter_application/logic/blocs/group/group_bloc.dart';
 import 'package:flutter_application/logic/blocs/group/group_events.dart';
 import 'package:flutter_application/ui/views/widgets/group/create_time_table.dart';
+import 'package:flutter_application/ui/views/widgets/group/show_group_time_table.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class GroupItemForAdmin extends StatelessWidget {
@@ -114,12 +115,12 @@ class GroupItemForAdmin extends StatelessWidget {
                   children: [
                     ElevatedButton(
                         onPressed: () {
-                          // Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //       builder: (context) =>
-                          //           ShowGroupTimetable(groupModel: groupModel),
-                          //     ));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    ShowGroupTimetable(groupModel: groupModel),
+                              ));
                         },
                         child: const Text("Show TimeTable")),
                     ElevatedButton(

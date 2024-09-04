@@ -51,7 +51,7 @@ class RoomService {
   ) async {
     try {
       final response = await dio.get(
-        '${api}available-rooms?dayId=$dayId&startTime=$startTime&endTime=$endTime',
+        '${api}available-rooms?dayId=$dayId&start_time=$startTime&end_time=$endTime',
       );
       if (response.data['success'] == false) {
         throw response.data;

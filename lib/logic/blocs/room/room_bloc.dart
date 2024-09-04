@@ -49,7 +49,6 @@ class RoomBloc extends Bloc<RoomEvent, RoomState> {
   }
 
   Future<void> _addRoom(AddRoomEvent event, emit) async {
-    print('------1');
     try {
       await roomService.addRoom(event.name, event.description, event.capacity);
       add(GetRoomsEvent());

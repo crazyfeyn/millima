@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/ui/views/widgets/group/choose_room.dart';
 
 class CreateTimetable extends StatefulWidget {
   final int groupId;
   const CreateTimetable({super.key, required this.groupId});
+
   @override
   State<StatefulWidget> createState() {
     return _CreateTimetableState();
@@ -15,13 +17,13 @@ class _CreateTimetableState extends State<CreateTimetable> {
   TimeOfDay? endTime;
 
   final List<String> weekDays = [
-    'Dushanba',
-    'Seshanba',
-    'Chorshanba',
-    'Payshanba',
-    'Juma',
-    'Shanba',
-    'Yakshanba',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+    'Sunday',
   ];
 
   Future<void> _selectTime(BuildContext context, bool isStartTime) async {
@@ -40,6 +42,24 @@ class _CreateTimetableState extends State<CreateTimetable> {
     }
   }
 
+  String _formatTimeOfDay(TimeOfDay time) {
+    final hours = time.hourOfPeriod < 10
+        ? '0${time.hourOfPeriod}'
+        : time.hourOfPeriod.toString();
+    final minutes =
+        time.minute < 10 ? '0${time.minute}' : time.minute.toString();
+    final period = time.period == DayPeriod.am ? 'AM' : 'PM';
+
+    return '$hours:$minutes $period';
+  }
+
+  String _convertTo24HourFormat(TimeOfDay time) {
+    final hour = time.hour < 10 ? '0${time.hour}' : time.hour.toString();
+    final minute =
+        time.minute < 10 ? '0${time.minute}' : time.minute.toString();
+    return '$hour:$minute';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,7 +75,7 @@ class _CreateTimetableState extends State<CreateTimetable> {
         child: Column(
           children: [
             DropdownButton<int>(
-              hint: const Text("Hafta kunini tanlang"),
+              hint: const Text("Choose weekday"),
               value: selectedDayIndex,
               onChanged: (newValue) {
                 setState(() {
@@ -75,12 +95,12 @@ class _CreateTimetableState extends State<CreateTimetable> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text("Boshlanish vaqti:"),
+                const Text("Starting time:"),
                 ElevatedButton(
                   onPressed: () => _selectTime(context, true),
                   child: Text(startTime == null
-                      ? "Tanlash"
-                      : startTime!.format(context)),
+                      ? "Select"
+                      : _formatTimeOfDay(startTime!)),
                 ),
               ],
             ),
@@ -88,11 +108,11 @@ class _CreateTimetableState extends State<CreateTimetable> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text("Tugash vaqti:"),
+                const Text("Ending time:"),
                 ElevatedButton(
                   onPressed: () => _selectTime(context, false),
                   child: Text(
-                      endTime == null ? "Tanlash" : endTime!.format(context)),
+                      endTime == null ? "Select" : _formatTimeOfDay(endTime!)),
                 ),
               ],
             ),
@@ -102,27 +122,22 @@ class _CreateTimetableState extends State<CreateTimetable> {
                       startTime != null &&
                       endTime != null
                   ? () async {
-                      String start = startTime!.format(context);
-                      String end = endTime!.format(context);
-                      if (start.split(' ')[1] == 'PM') {
-                        start =
-                            "${int.parse(start.split(" ")[0].split(":")[0]) + 12}:${start.split(" ")[0].split(":")[1]}";
-                      } else if (start.split(" ")[0].split(":")[0].length ==
-                          1) {
-                        start = "0${start.split(' ')[0]}";
-                      } else {
-                        start = start.split(' ')[0];
+                      String start = _convertTo24HourFormat(startTime!);
+                      String end = _convertTo24HourFormat(endTime!);
+
+                      if (startTime!.hour > endTime!.hour ||
+                          (startTime!.hour == endTime!.hour &&
+                              startTime!.minute >= endTime!.minute)) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content:
+                                Text("End time must be after the start time."),
+                          ),
+                        );
+                        return;
                       }
-                      if (end.split(' ')[1] == 'PM') {
-                        end =
-                            "${int.parse(end.split(" ")[0].split(":")[0]) + 12}:${end.split(" ")[0].split(":")[1]}";
-                      } else if (end.split(" ")[0].split(":")[0].length == 1) {
-                        end = "0${end.split(' ')[0]}";
-                      } else {
-                        end = end.split(' ')[0];
-                      }
-                      // await chooseRoom(context, widget.groupId,
-                      //     (selectedDayIndex! + 1), start, end);
+                      await chooseRoom(context, widget.groupId,
+                          (selectedDayIndex! + 1), start, end);
                     }
                   : null,
               child: const Text("Get Rooms"),
