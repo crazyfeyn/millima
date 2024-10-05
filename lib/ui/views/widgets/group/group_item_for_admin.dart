@@ -18,18 +18,14 @@ class GroupItemForAdmin extends StatelessWidget {
       children: [
         InkWell(
           onTap: () {
-            // Navigator.push(
-            //     context,
-            //     MaterialPageRoute(
-            //       builder: (context) => GroupInformationScreen(
-            //         groupModel: groupModel,
-            //       ),
-            //     ));
+            // Navigate to group details or perform some action.
           },
           child: Container(
             width: double.infinity,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20), color: Colors.blue),
+              borderRadius: BorderRadius.circular(20),
+              color: Colors.blue,
+            ),
             padding: const EdgeInsets.all(10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -41,102 +37,115 @@ class GroupItemForAdmin extends StatelessWidget {
                       child: Text(
                         "Group Name: ${groupModel.name}",
                         style: const TextStyle(
-                            fontSize: 25,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.white),
+                          fontSize: 25,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white,
+                        ),
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                     IconButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    AddStudentToGroup(groupModel: groupModel),
-                              ));
-                        },
-                        icon: const Icon(
-                          CupertinoIcons.person_add_solid,
-                          size: 30,
-                          color: Colors.white,
-                        ))
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                AddStudentToGroup(groupModel: groupModel),
+                          ),
+                        );
+                      },
+                      icon: const Icon(
+                        CupertinoIcons.person_add_solid,
+                        size: 30,
+                        color: Colors.white,
+                      ),
+                    ),
                   ],
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      "Main Teacher Id: ${groupModel.mainTeacher.id}",
-                      style: const TextStyle(
+                    Expanded(
+                      child: Text(
+                        "Main Teacher Id: ${groupModel.mainTeacher.id}",
+                        style: const TextStyle(
                           fontSize: 25,
                           fontWeight: FontWeight.w500,
-                          color: Colors.white),
+                          color: Colors.white,
+                        ),
+                        overflow: TextOverflow.ellipsis, // Handle overflow
+                      ),
                     ),
                     IconButton(
-                        onPressed: () {
-                          // Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //       builder: (context) =>
-                          //           UpdateGroup(group: groupModel),
-                          //     ));
-                        },
-                        icon: const Icon(
-                          Icons.edit,
-                          size: 30,
-                          color: Colors.white,
-                        ))
+                      onPressed: () {
+                        // Navigate to update group screen or perform an action.
+                      },
+                      icon: const Icon(
+                        Icons.edit,
+                        size: 30,
+                        color: Colors.white,
+                      ),
+                    ),
                   ],
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      "Asistant Teacher id: ${groupModel.assistantTeacher.id}",
-                      style: const TextStyle(
+                    Expanded(
+                      child: Text(
+                        "Assistant Teacher Id: ${groupModel.assistantTeacher.id}",
+                        style: const TextStyle(
                           fontSize: 25,
                           fontWeight: FontWeight.w500,
-                          color: Colors.white),
+                          color: Colors.white,
+                        ),
+                        overflow: TextOverflow.ellipsis, // Handle overflow
+                      ),
                     ),
                     IconButton(
-                        onPressed: () {
-                          context
-                              .read<GroupBloc>()
-                              .add(DeleteGroupEvent(groupId: groupModel.id));
-                        },
-                        icon: const Icon(
-                          Icons.delete,
-                          size: 30,
-                          color: Colors.red,
-                        ))
+                      onPressed: () {
+                        context
+                            .read<GroupBloc>()
+                            .add(DeleteGroupEvent(groupId: groupModel.id));
+                      },
+                      icon: const Icon(
+                        Icons.delete,
+                        size: 30,
+                        color: Colors.red,
+                      ),
+                    ),
                   ],
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    ShowGroupTimetable(groupModel: groupModel),
-                              ));
-                        },
-                        child: const Text("Show TimeTable")),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                ShowGroupTimetable(groupModel: groupModel),
+                          ),
+                        );
+                      },
+                      child: const Text("Show TimeTable"),
+                    ),
                     ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => CreateTimetable(
-                                  groupId: groupModel.id,
-                                ),
-                              ));
-                        },
-                        child: const Text("Add TimeTable")),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CreateTimetable(
+                              groupId: groupModel.id,
+                            ),
+                          ),
+                        );
+                      },
+                      child: const Text("Add TimeTable"),
+                    ),
                   ],
-                )
+                ),
               ],
             ),
           ),
