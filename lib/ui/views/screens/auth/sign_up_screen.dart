@@ -4,7 +4,6 @@ import 'package:flutter_application/logic/blocs/auth_bloc/sign_up/sign_up_bloc.d
 import 'package:flutter_application/logic/blocs/auth_bloc/sign_up/sign_up_events.dart';
 import 'package:flutter_application/logic/blocs/auth_bloc/sign_up/sign_up_states.dart';
 import 'package:flutter_application/ui/views/screens/auth/sign_in_screen.dart';
-import 'package:flutter_application/ui/views/screens/home/home_screen.dart';
 import 'package:flutter_application/ui/views/screens/roles/admin_screen.dart';
 import 'package:flutter_application/ui/views/screens/roles/student_screen.dart';
 import 'package:flutter_application/ui/views/screens/roles/teacher_screen.dart';
@@ -51,6 +50,7 @@ class _SignupScreenState extends State<SignupScreen> {
           if (state is SignupLoadedState) {
             getUserInfo().then((userInfo) {
               Navigator.pushReplacement(
+                // ignore: use_build_context_synchronously
                 context,
                 MaterialPageRoute(
                   builder: (ctx) {
