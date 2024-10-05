@@ -44,12 +44,15 @@ Future<List?> updateStudents(BuildContext context, List selectedUserIds) {
                           user.name,
                           style: const TextStyle(fontSize: 20),
                         ),
-                        subtitle: Text(user.phone!),
+                        subtitle: Text(user.phone ??
+                            "No phone number"), // Handle null phone
                         leading: Container(
                           decoration: const BoxDecoration(
-                              shape: BoxShape.circle, color: Colors.grey),
+                            shape: BoxShape.circle,
+                            color: Colors.grey,
+                          ),
                           clipBehavior: Clip.hardEdge,
-                          child: user.photo == null
+                          child: user.photo == null // Handle null photo
                               ? const Icon(Icons.person, size: 40)
                               : Image.network(
                                   "http://millima.flutterwithakmaljon.uz/storage/avatars/${user.photo}",

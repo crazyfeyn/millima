@@ -74,26 +74,27 @@ class _AddGroupState extends State<AddStudentToGroup> {
                     ))
               ],
             ),
-            ElevatedButton(
-                onPressed: () {
-                  // context.read<GroupBloc>().add(AddStudentsToGroupEvent(
-                  //     groupId: widget.groupModel.id, studentsId: students));
-                  // Navigator.pushReplacement(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //       builder: (context) => const AdminScreen(),
-                  //     ));
-                },
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
-                    padding: const EdgeInsets.fromLTRB(30, 10, 30, 10)),
-                child: const Text(
-                  "Add Students",
-                  style: TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.white),
-                ))
+            // !  looooook
+            // ElevatedButton(
+            //     onPressed: () {
+            //       // context.read<GroupBloc>().add(AddStudentsToGroupEvent(
+            //       //     groupId: widget.groupModel.id, studentsId: students));
+            //       // Navigator.pushReplacement(
+            //       //     context,
+            //       //     MaterialPageRoute(
+            //       //       builder: (context) => const AdminScreen(),
+            //       //     ));
+            //     },
+            //     style: ElevatedButton.styleFrom(
+            //         backgroundColor: Colors.blue,
+            //         padding: const EdgeInsets.fromLTRB(30, 10, 30, 10)),
+            //     child: const Text(
+            //       "Add Students",
+            //       style: TextStyle(
+            //           fontSize: 25,
+            //           fontWeight: FontWeight.w600,
+            //           color: Colors.white),
+            //     ))
           ],
         ),
       ),
