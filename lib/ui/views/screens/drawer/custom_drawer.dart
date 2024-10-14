@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application/ui/views/screens/drawer/group_screen.dart';
 import 'package:flutter_application/ui/views/screens/drawer/room_screen.dart';
 import 'package:flutter_application/ui/views/screens/drawer/subject_screen.dart';
-import 'package:flutter_application/ui/views/screens/roles/all_admins_screen.dart';
-import 'package:flutter_application/ui/views/screens/roles/all_student_screen.dart';
-import 'package:flutter_application/ui/views/screens/roles/all_teacher_screen.dart';
+import 'package:flutter_application/ui/views/screens/roles/admin/all_admins_screen.dart';
+import 'package:flutter_application/ui/views/screens/roles/admin/all_student_screen.dart';
+import 'package:flutter_application/ui/views/screens/roles/admin/all_teacher_screen.dart';
 import 'package:flutter_svg/svg.dart';
 
 class CustomDrawer extends StatelessWidget {

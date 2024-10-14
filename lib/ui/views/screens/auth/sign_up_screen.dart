@@ -4,9 +4,9 @@ import 'package:flutter_application/logic/blocs/auth_bloc/sign_up/sign_up_bloc.d
 import 'package:flutter_application/logic/blocs/auth_bloc/sign_up/sign_up_events.dart';
 import 'package:flutter_application/logic/blocs/auth_bloc/sign_up/sign_up_states.dart';
 import 'package:flutter_application/ui/views/screens/auth/sign_in_screen.dart';
-import 'package:flutter_application/ui/views/screens/roles/admin_screen.dart';
-import 'package:flutter_application/ui/views/screens/roles/student_screen.dart';
-import 'package:flutter_application/ui/views/screens/roles/teacher_screen.dart';
+import 'package:flutter_application/ui/views/screens/roles/admin/admin_screen.dart';
+import 'package:flutter_application/ui/views/screens/roles/admin/student_screen.dart';
+import 'package:flutter_application/ui/views/screens/roles/admin/teacher_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -247,6 +247,8 @@ class _SignupScreenState extends State<SignupScreen> {
                                         value: 2, child: Text("Teacher")),
                                     DropdownMenuItem(
                                         value: 3, child: Text("Admin")),
+                                    DropdownMenuItem(
+                                        value: 1, child: Text("Student")),
                                   ],
                                   onChanged: (value) {
                                     setState(() {

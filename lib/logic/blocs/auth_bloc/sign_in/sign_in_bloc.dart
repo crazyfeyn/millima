@@ -69,6 +69,8 @@ class SigninBloc extends Bloc<SignInEvent, SignInStates> {
           final googleSignIn = GoogleSignIn(scopes: scopes);
           final googleUser = await googleSignIn.signIn();
           if (googleUser != null) {
+            print('Signed in user: ${googleUser.displayName}');
+            print('User email: ${googleUser.email}');
             request = SocialLoginRequest(
               name: googleUser.displayName ?? '',
               email: googleUser.email,

@@ -4,9 +4,9 @@ import 'package:flutter_application/logic/blocs/auth_bloc/sign_in/sign_in_bloc.d
 import 'package:flutter_application/logic/blocs/auth_bloc/sign_in/sign_in_events.dart';
 import 'package:flutter_application/logic/blocs/auth_bloc/sign_in/sign_in_states.dart';
 import 'package:flutter_application/ui/views/screens/auth/sign_up_screen.dart';
-import 'package:flutter_application/ui/views/screens/roles/admin_screen.dart';
-import 'package:flutter_application/ui/views/screens/roles/student_screen.dart';
-import 'package:flutter_application/ui/views/screens/roles/teacher_screen.dart';
+import 'package:flutter_application/ui/views/screens/roles/admin/admin_screen.dart';
+import 'package:flutter_application/ui/views/screens/roles/admin/student_screen.dart';
+import 'package:flutter_application/ui/views/screens/roles/admin/teacher_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SigninScreen extends StatefulWidget {
